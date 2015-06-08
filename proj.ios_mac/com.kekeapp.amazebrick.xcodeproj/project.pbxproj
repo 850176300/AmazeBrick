@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FF61B253C79001909E2 /* b2BodySprite.cpp */; };
+		01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */; };
+		0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */; };
 		01E267171B248A6900720494 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E267161B248A6900720494 /* VisibleRect.cpp */; };
 		01E2671D1B248BED00720494 /* GLES-Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E2671B1B248BED00720494 /* GLES-Render.cpp */; };
 		01E267211B248E8800720494 /* common.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01E2671F1B248E8800720494 /* common.plist */; };
@@ -219,6 +222,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01265FF61B253C79001909E2 /* b2BodySprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BodySprite.cpp; sourceTree = "<group>"; };
+		01265FF71B253C79001909E2 /* b2BodySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BodySprite.h; sourceTree = "<group>"; };
+		01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2dPhysicSprite.cpp; sourceTree = "<group>"; };
+		01265FFC1B254614001909E2 /* Box2dPhysicSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2dPhysicSprite.h; sourceTree = "<group>"; };
+		0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = STVisibleRect.cpp; sourceTree = "<group>"; };
+		0148DA0B1B25958D00EA6796 /* STVisibleRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STVisibleRect.h; sourceTree = "<group>"; };
+		0148DA0F1B2595CD00EA6796 /* STMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STMacro.h; sourceTree = "<group>"; };
 		01E267161B248A6900720494 /* VisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisibleRect.cpp; path = ../Classes/VisibleRect.cpp; sourceTree = "<group>"; };
 		01E2671A1B248A7200720494 /* VisibleRect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VisibleRect.h; path = ../Classes/VisibleRect.h; sourceTree = "<group>"; };
 		01E2671B1B248BED00720494 /* GLES-Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "GLES-Render.cpp"; sourceTree = "<group>"; };
@@ -346,14 +356,21 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */,
+				0148DA0B1B25958D00EA6796 /* STVisibleRect.h */,
+				01265FF61B253C79001909E2 /* b2BodySprite.cpp */,
+				01265FF71B253C79001909E2 /* b2BodySprite.h */,
 				01E2671B1B248BED00720494 /* GLES-Render.cpp */,
 				01E2671C1B248BED00720494 /* GLES-Render.h */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
 				01E2671A1B248A7200720494 /* VisibleRect.h */,
-				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				01E267161B248A6900720494 /* VisibleRect.cpp */,
+				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
+				01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */,
+				01265FFC1B254614001909E2 /* Box2dPhysicSprite.h */,
+				0148DA0F1B2595CD00EA6796 /* STMacro.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -685,9 +702,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */,
 				01E267171B248A6900720494 /* VisibleRect.cpp in Sources */,
+				0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
@@ -765,7 +785,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Dev SKA (3J92VZT269)";
 				COMPRESS_PNG_FILES = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -796,7 +816,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Dev SKA (3J92VZT269)";
 				COMPRESS_PNG_FILES = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

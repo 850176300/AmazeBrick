@@ -1,7 +1,10 @@
 #include "HelloWorldScene.h"
 #include "VisibleRect.h"
-
+#include "b2BodySprite.h"
+#include "Box2dPhysicSprite.h"
+#include "STVisibleRect.h"
 USING_NS_CC;
+USING_NS_ST;
 #define PTM_RATIO 32.0
 Scene* HelloWorld::createScene()
 {
@@ -23,6 +26,8 @@ HelloWorld* HelloWorld::createWithPhysic(){
     if (pRet && pRet->init()) {
         pRet->initPhysics();
         pRet->scheduleUpdate();
+        pRet->addB2Body();
+        pRet->addBrickBody();
         return pRet;
     }else {
         CC_SAFE_DELETE(pRet);
@@ -33,7 +38,7 @@ HelloWorld* HelloWorld::createWithPhysic(){
 void HelloWorld::initPhysics()
 {
     b2Vec2 gravity;
-    gravity.Set(0.0f, -10.0f);
+    gravity.Set(0.0f, 40.0f);
     world = new b2World(gravity);
     
     // Do we want to let bodies sleep?
@@ -41,17 +46,17 @@ void HelloWorld::initPhysics()
     
     world->SetContinuousPhysics(true);
     
-         _debugDraw = new GLESDebugDraw( PTM_RATIO );
-         world->SetDebugDraw(_debugDraw);
-    
-    uint32 flags = 0;
-    flags += b2Draw::e_shapeBit;
-            flags += b2Draw::e_jointBit;
-            flags += b2Draw::e_aabbBit;
-//            flags += b2Draw::e_pairBit;
-            flags += b2Draw::e_centerOfMassBit;
-    _debugDraw->SetFlags(flags);
-    
+//         _debugDraw = new GLESDebugDraw( PTM_RATIO );
+//         world->SetDebugDraw(_debugDraw);
+//    
+//    uint32 flags = 0;
+//    flags += b2Draw::e_shapeBit;
+//            flags += b2Draw::e_jointBit;
+//            flags += b2Draw::e_aabbBit;
+////            flags += b2Draw::e_pairBit;
+//            flags += b2Draw::e_centerOfMassBit;
+//    _debugDraw->SetFlags(flags);
+//    
     
     // Define the ground body.
     b2BodyDef groundBodyDef;
@@ -132,59 +137,147 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+    if ( !LayerColor::initWithColor(Color4B(255, 255, 255, 255)))
     {
         return false;
     }
+    obstacleLayer = LayerColor::create(Color4B(00, 0, 0, 150));
+    obstacleLayer->setPosition(Vec2(STVisibleRect::getOriginalPoint().x, STVisibleRect::getPointOfSceneLeftUp().y));
+    addChild(obstacleLayer);
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("common.plist");
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(_swallowsTouches);
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
+    listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+    listener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
+    listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+    listener->onTouchCancelled = CC_CALLBACK_2(HelloWorld::onTouchCancelled, this);
     
-    auto label = LabelTTF::create("Hello World", "Arial", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
     return true;
 }
 
+void HelloWorld::addB2Body(){
+    
+    {
+        Box2dPhysicSprite* pSprite = Box2dPhysicSprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_staticBody;
+        bodyDef.position.Set(pSprite->getContentSize().width/2.0/PTM_RATIO, pSprite->getContentSize().height/2.0/PTM_RATIO);
+        b2Body* _body = world->CreateBody(&bodyDef);
+        // Define another box shape for our dynamic body.
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox(7.6,1.05);
+        
+        // Define the dynamic body fixture.
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;
+        fixtureDef.density = 1.0;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f;
+        
+        _body->CreateFixture(&fixtureDef);
+        _body->SetGravityScale(-1.0);
+        _body->SetBullet(true);
+        pSprite->setB2Body(_body);
+        pSprite->setPTMRatio(PTM_RATIO);
+        pSprite->setPosition(Vec2(300, 800));
+        addChild(pSprite);
+    }
+    {
+        Box2dPhysicSprite* pSprite = Box2dPhysicSprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_staticBody;
+        bodyDef.position.Set(pSprite->getContentSize().width/2.0/PTM_RATIO, pSprite->getContentSize().height/2.0/PTM_RATIO);
+        b2Body* _body = world->CreateBody(&bodyDef);
+        // Define another box shape for our dynamic body.
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox(7.6,1.05);
+        
+        // Define the dynamic body fixture.
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;
+        fixtureDef.density = 1.0;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f;
+        
+        _body->CreateFixture(&fixtureDef);
+        _body->SetGravityScale(-1.0);
+        _body->SetBullet(true);
+        pSprite->setB2Body(_body);
+        pSprite->setPTMRatio(PTM_RATIO);
+        pSprite->setPosition(Vec2(300, 800));
+        addChild(pSprite);
+    }
+}
+
+void HelloWorld::addBrickBody(){
+    Box2dPhysicSprite* pSprite = Box2dPhysicSprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-block.png"));
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(pSprite->getContentSize().width/2.0/PTM_RATIO, pSprite->getContentSize().height/2.0/PTM_RATIO);
+    _Brickbody = world->CreateBody(&bodyDef);
+    // Define another box shape for our dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(0.7,0.7);
+    
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 0.05f;
+    fixtureDef.friction = 2.0f;
+    fixtureDef.restitution = 0.0f;
+    
+    _Brickbody->CreateFixture(&fixtureDef);
+    _Brickbody->SetGravityScale(-1.0);
+    _Brickbody->SetBullet(true);
+//    b2MassData* pData = nullptr;
+//    _Brickbody->GetMassData(pData);
+    pSprite->setB2Body(_Brickbody);
+    
+    pSprite->setPTMRatio(PTM_RATIO);
+    pSprite->setPosition(Vec2(250, 300));
+    pSprite->setColor(Color3B::BLACK);
+    pSprite->setIgnoreBodyRotation(true);
+    addChild(pSprite);
+    
+
+}
+
+bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+    float xForce = -25;
+    float yFroce = 120;
+    if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
+        xForce = 25;
+    }
+    if (canTwiceClick == false) {
+        canTwiceClick = true;
+        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+        yFroce = 80;
+        xForce = (xForce > 0 ? 1 : -1)*35;
+        this->scheduleOnce(schedule_selector(HelloWorld::resetGravity), 0.5f);
+    }else {
+        _Brickbody->SetAngularVelocity(0);
+        
+    }
+    //    log("the speed is %.2f, %.2f", vel.x, vel.y);
+    //    world->SetGravity(b2Vec2(0, 10));
+    _Brickbody->ApplyForce(b2Vec2(xForce, 120), _Brickbody->GetWorldCenter(), false);
+    
+    return true;
+}
+
+void HelloWorld::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
+//    b2Vec2 vel = _Brickbody->GetLinearVelocity();
+
+}
+
+void HelloWorld::resetGravity(float dt){
+    canTwiceClick = false;
+//    world->SetGravity(b2Vec2(0, 20));
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

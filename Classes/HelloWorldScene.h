@@ -5,7 +5,7 @@
 #include "Box2D/Box2D.h"
 #include "GLES-Render.h"
 using namespace cocos2d;
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public cocos2d::LayerColor
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -21,16 +21,26 @@ public:
     
     // implement the "static create()" method manually
 
-    
+    virtual bool onTouchBegan(Touch *touch, Event *unused_event);
+    virtual void onTouchMoved(Touch *touch, Event *unused_event){}
+    virtual void onTouchEnded(Touch *touch, Event *unused_event);
+    virtual void onTouchCancelled(Touch *touch, Event *unused_event){}
 private:
+    void addBrickBody();
+    void addB2Body();
     void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags);
     void initPhysics();
     void update(float dt);
     void onDraw();
+    void resetGravity(float);
     b2World* world;
     Mat4 _modelViewMV;
     CustomCommand _customCommand;
-    GLESDebugDraw* _debugDraw;
+//    GLESDebugDraw* _debugDraw;
+    b2Body* _Brickbody;
+    bool canTwiceClick = false;
+    LayerColor* obstacleLayer = nullptr;//障碍物的页面
+    float obstacleY = 0;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
