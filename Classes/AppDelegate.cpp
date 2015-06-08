@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
-
+#include "Box2dLayer.h"
 USING_NS_CC;
 
 AppDelegate::AppDelegate() {

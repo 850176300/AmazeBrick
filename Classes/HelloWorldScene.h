@@ -26,21 +26,17 @@ public:
     virtual void onTouchEnded(Touch *touch, Event *unused_event);
     virtual void onTouchCancelled(Touch *touch, Event *unused_event){}
 private:
-    void addBrickBody();
-    void addB2Body();
-    void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags);
-    void initPhysics();
     void update(float dt);
-    void onDraw();
-    void resetGravity(float);
-    b2World* world;
-    Mat4 _modelViewMV;
-    CustomCommand _customCommand;
-//    GLESDebugDraw* _debugDraw;
-    b2Body* _Brickbody;
-    bool canTwiceClick = false;
+    void addlongBrick();
+    Sprite* brickSprite = nullptr;
     LayerColor* obstacleLayer = nullptr;//障碍物的页面
     float obstacleY = 0;
+    float startCenterY ;
+    bool isFirst = true;
+    float speedx = 0;
+    float speedy = 0;
+    float graverty = -300;
+    float xgrabity = -50;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

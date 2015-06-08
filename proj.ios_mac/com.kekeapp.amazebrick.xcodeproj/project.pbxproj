@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FF61B253C79001909E2 /* b2BodySprite.cpp */; };
 		01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */; };
+		012B53AA1B25E561001E8F62 /* Box2dLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 012B53A81B25E561001E8F62 /* Box2dLayer.cpp */; };
 		0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */; };
 		01E267171B248A6900720494 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E267161B248A6900720494 /* VisibleRect.cpp */; };
 		01E2671D1B248BED00720494 /* GLES-Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E2671B1B248BED00720494 /* GLES-Render.cpp */; };
@@ -226,6 +227,8 @@
 		01265FF71B253C79001909E2 /* b2BodySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BodySprite.h; sourceTree = "<group>"; };
 		01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2dPhysicSprite.cpp; sourceTree = "<group>"; };
 		01265FFC1B254614001909E2 /* Box2dPhysicSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2dPhysicSprite.h; sourceTree = "<group>"; };
+		012B53A81B25E561001E8F62 /* Box2dLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2dLayer.cpp; path = ../Classes/Box2dLayer.cpp; sourceTree = "<group>"; };
+		012B53A91B25E561001E8F62 /* Box2dLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2dLayer.h; path = ../Classes/Box2dLayer.h; sourceTree = "<group>"; };
 		0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = STVisibleRect.cpp; sourceTree = "<group>"; };
 		0148DA0B1B25958D00EA6796 /* STVisibleRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STVisibleRect.h; sourceTree = "<group>"; };
 		0148DA0F1B2595CD00EA6796 /* STMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STMacro.h; sourceTree = "<group>"; };
@@ -371,6 +374,8 @@
 				01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */,
 				01265FFC1B254614001909E2 /* Box2dPhysicSprite.h */,
 				0148DA0F1B2595CD00EA6796 /* STMacro.h */,
+				012B53A81B25E561001E8F62 /* Box2dLayer.cpp */,
+				012B53A91B25E561001E8F62 /* Box2dLayer.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -708,6 +713,7 @@
 				01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */,
 				01E267171B248A6900720494 /* VisibleRect.cpp in Sources */,
 				0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */,
+				012B53AA1B25E561001E8F62 /* Box2dLayer.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,

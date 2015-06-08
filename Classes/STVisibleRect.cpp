@@ -1,6 +1,6 @@
 #include "STVisibleRect.h"
 //#include "KKAds.h"
-#include "GameController.h"
+//#include "GameController.h"
 USING_NS_CC;
 USING_NS_ST;
 
@@ -175,7 +175,7 @@ Size STVisibleRect::getGlvisibleSize(){
 }
 
 Rect STVisibleRect::getMovableRect(){
-    float bannerSize = GameController::getInstance()->getBannerHeight();
+    float bannerSize = 0;//GameController::getInstance()->getBannerHeight();
     
         return Rect(Director::getInstance()->getVisibleOrigin().x, Director::getInstance()->getVisibleOrigin().y+bannerSize, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height-bannerSize);
 //    }
