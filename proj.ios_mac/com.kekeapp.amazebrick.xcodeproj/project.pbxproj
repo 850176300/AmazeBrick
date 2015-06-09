@@ -10,6 +10,9 @@
 		01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FF61B253C79001909E2 /* b2BodySprite.cpp */; };
 		01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */; };
 		012B53AA1B25E561001E8F62 /* Box2dLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 012B53A81B25E561001E8F62 /* Box2dLayer.cpp */; };
+		013DC0CC1B26C6FB0043C952 /* BrickShape.plist in Resources */ = {isa = PBXBuildFile; fileRef = 013DC0C91B26C6FB0043C952 /* BrickShape.plist */; };
+		013DC0CD1B26C6FB0043C952 /* brick2.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DC0CA1B26C6FB0043C952 /* brick2.png */; };
+		013DC0CE1B26C6FB0043C952 /* brick1.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DC0CB1B26C6FB0043C952 /* brick1.png */; };
 		0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */; };
 		01E267171B248A6900720494 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E267161B248A6900720494 /* VisibleRect.cpp */; };
 		01E2671D1B248BED00720494 /* GLES-Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E2671B1B248BED00720494 /* GLES-Render.cpp */; };
@@ -229,6 +232,9 @@
 		01265FFC1B254614001909E2 /* Box2dPhysicSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2dPhysicSprite.h; sourceTree = "<group>"; };
 		012B53A81B25E561001E8F62 /* Box2dLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2dLayer.cpp; path = ../Classes/Box2dLayer.cpp; sourceTree = "<group>"; };
 		012B53A91B25E561001E8F62 /* Box2dLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2dLayer.h; path = ../Classes/Box2dLayer.h; sourceTree = "<group>"; };
+		013DC0C91B26C6FB0043C952 /* BrickShape.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BrickShape.plist; sourceTree = "<group>"; };
+		013DC0CA1B26C6FB0043C952 /* brick2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick2.png; sourceTree = "<group>"; };
+		013DC0CB1B26C6FB0043C952 /* brick1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick1.png; sourceTree = "<group>"; };
 		0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = STVisibleRect.cpp; sourceTree = "<group>"; };
 		0148DA0B1B25958D00EA6796 /* STVisibleRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STVisibleRect.h; sourceTree = "<group>"; };
 		0148DA0F1B2595CD00EA6796 /* STMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STMacro.h; sourceTree = "<group>"; };
@@ -491,6 +497,9 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				013DC0C91B26C6FB0043C952 /* BrickShape.plist */,
+				013DC0CA1B26C6FB0043C952 /* brick2.png */,
+				013DC0CB1B26C6FB0043C952 /* brick1.png */,
 				01E2671F1B248E8800720494 /* common.plist */,
 				01E267201B248E8800720494 /* common.png */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
@@ -665,13 +674,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				013DC0CC1B26C6FB0043C952 /* BrickShape.plist in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				013DC0CD1B26C6FB0043C952 /* brick2.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
+				013DC0CE1B26C6FB0043C952 /* brick1.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
