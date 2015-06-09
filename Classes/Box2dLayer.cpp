@@ -8,9 +8,10 @@
 
 #include "Box2dLayer.h"
 #include "VisibleRect.h"
-#include "Box2dPhysicSprite.h"
+
 #include "STVisibleRect.h"
 #include "b2BodySprite.h"
+#include "GB2ShapeCache-x.h"
 #define PTM_RATIO 32.0
 USING_NS_ST;
 
@@ -41,9 +42,9 @@ Box2dLayer*  Box2dLayer::createWithePhysic(){
 
 bool Box2dLayer::init(){
     if (LayerColor::initWithColor(Color4B(255, 255, 255, 255))) {
-        obstacleLayer = LayerColor::create(Color4B(0, 0, 0, 150));
-        obstacleLayer->setPosition(Vec2(STVisibleRect::getOriginalPoint().x, STVisibleRect::getPointOfSceneLeftUp().y-200));
-        addChild(obstacleLayer);
+        obstacleY = STVisibleRect::getPointOfSceneLeftUp().y;
+        centerY = STVisibleRect::getCenterOfScene().y + 50;
+        
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile("common.plist");
         
         auto listener = EventListenerTouchOneByOne::create();
@@ -161,103 +162,93 @@ void Box2dLayer::addB2Body(){
     float deltax = arc4random() % 10 ;
     deltax = (deltax - 5) * 30;
     {
-        b2BodySprite* pSprite = b2BodySprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
+        Box2dPhysicSprite* pSprite = Box2dPhysicSprite::create("brick2.png");
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
-        bodyDef.position.Set(pSprite->getContentSize().width/2.0/PTM_RATIO, pSprite->getContentSize().height/2.0/PTM_RATIO);
+        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
-        b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(7.6,1.05);
+        GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_body, "brick2");
         
-        // Define the dynamic body fixture.
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &dynamicBox;
-        fixtureDef.density = 1.0;
-        fixtureDef.friction = 0.0f;
-        fixtureDef.restitution = 0.0f;
-        
-        _body->CreateFixture(&fixtureDef);
         _body->SetGravityScale(-1.0);
         _body->SetBullet(true);
         pSprite->setB2Body(_body);
         pSprite->setPTMRatio(PTM_RATIO);
-        pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0, obstacleY + pSprite->getContentSize().height / 2.0));
-        pSprite->setColor(Color3B(120, 150, 160));
-       obstacleLayer->addChild(pSprite);
+        pSprite->setColor(Color3B(220, 250, 160));
+        addChild(pSprite);
+        pSprite->addMoveEventNotify();
     }
     {
-        b2BodySprite* pSprite = b2BodySprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
+        Box2dPhysicSprite* pSprite = Box2dPhysicSprite::create("brick2.png");
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
-        bodyDef.position.Set(pSprite->getContentSize().width/2.0/PTM_RATIO, pSprite->getContentSize().height/2.0/PTM_RATIO);
+        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax + 180 + pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
-        b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(7.6,1.05);
+
         
-        // Define the dynamic body fixture.
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &dynamicBox;
-        fixtureDef.density = 1.0;
-        fixtureDef.friction = 0.0f;
-        fixtureDef.restitution = 0.0f;
-        
-        _body->CreateFixture(&fixtureDef);
+        GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_body, "brick2");
         _body->SetGravityScale(-1.0);
         _body->SetBullet(true);
         pSprite->setB2Body(_body);
         pSprite->setPTMRatio(PTM_RATIO);
-        pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax + 180 + pSprite->getContentSize().width/2.0, obstacleY + pSprite->getContentSize().height / 2.0));
-        pSprite->setColor(Color3B(120, 150, 160));
-        obstacleLayer->addChild(pSprite);
+
+        pSprite->setColor(Color3B(220, 250, 160));
+        addChild(pSprite);
+        pSprite->addMoveEventNotify();
     }
 }
 
 void Box2dLayer::addBrickBody(){
-    Box2dPhysicSprite* pSprite = Box2dPhysicSprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-block.png"));
+    brickSprite = Box2dPhysicSprite::create("brick1.png");
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(pSprite->getContentSize().width/2.0/PTM_RATIO, pSprite->getContentSize().height/2.0/PTM_RATIO);
+    bodyDef.position.Set(STVisibleRect::getCenterOfScene().x / PTM_RATIO, (STVisibleRect::getCenterOfScene().y - 50) / PTM_RATIO);
     _Brickbody = world->CreateBody(&bodyDef);
     // Define another box shape for our dynamic body.
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(0.7,0.7);
     
-    // Define the dynamic body fixture.
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 0.05f;
-    fixtureDef.friction = 2.0f;
-    fixtureDef.restitution = 0.0f;
+    GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_Brickbody, "brick1");
     
-    _Brickbody->CreateFixture(&fixtureDef);
     _Brickbody->SetGravityScale(-1.0);
     _Brickbody->SetBullet(true);
     //    b2MassData* pData = nullptr;
     //    _Brickbody->GetMassData(pData);
-    pSprite->setB2Body(_Brickbody);
-    
-    pSprite->setPTMRatio(PTM_RATIO);
-    pSprite->setPosition(Vec2(250, 300));
-    pSprite->setColor(Color3B::BLACK);
-    pSprite->setIgnoreBodyRotation(true);
-    addChild(pSprite);
+    brickSprite->setB2Body(_Brickbody);
+    brickSprite->setPTMRatio(PTM_RATIO);
+    brickSprite->setColor(Color3B::BLACK);
+    brickSprite->setIgnoreBodyRotation(true);
+    _Brickbody->SetFixedRotation(false);
+    addChild(brickSprite);
     
     
 }
 
 bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-    float xForce = -25;
-    float yFroce = 120;
+    if (brickSprite->getBoundingBox().getMaxY() < centerY) {
+        schedule(schedule_selector(Box2dLayer::checkNeedPostEvent), 0.05);
+    }else {
+        _Brickbody->SetGravityScale(-0.1);
+        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+        _Brickbody->SetAngularVelocity(0);
+        if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
+            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(50, 0))));
+        }else {
+            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(-50, 0))));
+        }
+        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent);
+        this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
+        return true;
+    }
+    float xForce = -15;
+    float yFroce = 100;
     if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-        xForce = 25;
+        xForce = 15;
     }
     if (canTwiceClick == false) {
         canTwiceClick = true;
         _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-        yFroce = 80;
-        xForce = (xForce > 0 ? 1 : -1)*35;
+        yFroce = 70;
+        xForce = (xForce > 0 ? 1 : -1)*15;
         this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
     }else {
         _Brickbody->SetAngularVelocity(0);
@@ -272,11 +263,18 @@ bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_even
 
 void Box2dLayer::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
     //    b2Vec2 vel = _Brickbody->GetLinearVelocity();
-    obstacleLayer->setPositionY(obstacleLayer->getPositionY() - 10);
     
 }
 
 void Box2dLayer::resetGravity(float dt){
     canTwiceClick = false;
     //    world->SetGravity(b2Vec2(0, 20));
+    _Brickbody->SetGravityScale(-1.0);
+}
+
+void Box2dLayer::checkNeedPostEvent(float dt){
+    if (brickSprite->getBoundingBox().getMaxY() > centerY) {
+        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent);
+        unschedule(schedule_selector(Box2dLayer::checkNeedPostEvent));
+    }
 }

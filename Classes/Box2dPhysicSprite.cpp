@@ -13,6 +13,12 @@ Box2dPhysicSprite::Box2dPhysicSprite()
 , fPTMRatio(0.0f)
 {}
 
+Box2dPhysicSprite::~Box2dPhysicSprite(){
+    if (hadAddNotify) {
+        NotificationCenter::getInstance()->removeObserver(this, kMoveNotifyEvent);
+    }
+}
+
 Box2dPhysicSprite* Box2dPhysicSprite::create()
 {
     Box2dPhysicSprite* pRet = new Box2dPhysicSprite();
@@ -308,3 +314,23 @@ void Box2dPhysicSprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t
     
     Sprite::draw(renderer, _transform, flags);
 }
+
+void Box2dPhysicSprite::addMoveEventNotify(){
+    if (hadAddNotify == true){
+        return;
+    }
+    hadAddNotify = true;
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(Box2dPhysicSprite::onRecieveEvent), kMoveNotifyEvent, nullptr);
+}
+
+void Box2dPhysicSprite::onRecieveEvent(cocos2d::Ref *pRef) {
+    this->runAction(Sequence::create(EaseSineInOut::create(MoveBy::create(0.5, Vec2(0, -60))), CallFunc::create(std::bind(&Box2dPhysicSprite::checkNeedRemove, this)),NULL));
+}
+
+void Box2dPhysicSprite::checkNeedRemove(){
+    if (getBoundingBox().getMaxY() < Director::getInstance()->getVisibleOrigin().y) {
+        _pB2Body->GetWorld()->DestroyBody(_pB2Body);
+        removeFromParent();
+    }
+}
+

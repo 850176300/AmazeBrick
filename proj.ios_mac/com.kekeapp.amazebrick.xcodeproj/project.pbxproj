@@ -13,6 +13,7 @@
 		013DC0CC1B26C6FB0043C952 /* BrickShape.plist in Resources */ = {isa = PBXBuildFile; fileRef = 013DC0C91B26C6FB0043C952 /* BrickShape.plist */; };
 		013DC0CD1B26C6FB0043C952 /* brick2.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DC0CA1B26C6FB0043C952 /* brick2.png */; };
 		013DC0CE1B26C6FB0043C952 /* brick1.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DC0CB1B26C6FB0043C952 /* brick1.png */; };
+		013DC0D41B26C7790043C952 /* GB2ShapeCache-x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013DC0D21B26C7790043C952 /* GB2ShapeCache-x.cpp */; };
 		0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */; };
 		01E267171B248A6900720494 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E267161B248A6900720494 /* VisibleRect.cpp */; };
 		01E2671D1B248BED00720494 /* GLES-Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E2671B1B248BED00720494 /* GLES-Render.cpp */; };
@@ -235,6 +236,8 @@
 		013DC0C91B26C6FB0043C952 /* BrickShape.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BrickShape.plist; sourceTree = "<group>"; };
 		013DC0CA1B26C6FB0043C952 /* brick2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick2.png; sourceTree = "<group>"; };
 		013DC0CB1B26C6FB0043C952 /* brick1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick1.png; sourceTree = "<group>"; };
+		013DC0D21B26C7790043C952 /* GB2ShapeCache-x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "GB2ShapeCache-x.cpp"; sourceTree = "<group>"; };
+		013DC0D31B26C7790043C952 /* GB2ShapeCache-x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GB2ShapeCache-x.h"; sourceTree = "<group>"; };
 		0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = STVisibleRect.cpp; sourceTree = "<group>"; };
 		0148DA0B1B25958D00EA6796 /* STVisibleRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STVisibleRect.h; sourceTree = "<group>"; };
 		0148DA0F1B2595CD00EA6796 /* STMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STMacro.h; sourceTree = "<group>"; };
@@ -365,6 +368,8 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				013DC0D21B26C7790043C952 /* GB2ShapeCache-x.cpp */,
+				013DC0D31B26C7790043C952 /* GB2ShapeCache-x.h */,
 				0148DA0A1B25958D00EA6796 /* STVisibleRect.cpp */,
 				0148DA0B1B25958D00EA6796 /* STVisibleRect.h */,
 				01265FF61B253C79001909E2 /* b2BodySprite.cpp */,
@@ -720,6 +725,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */,
+				013DC0D41B26C7790043C952 /* GB2ShapeCache-x.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */,

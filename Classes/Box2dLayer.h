@@ -13,6 +13,7 @@
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "GLES-Render.h"
+#include "Box2dPhysicSprite.h"
 USING_NS_CC;
 using namespace std;
 
@@ -39,7 +40,7 @@ protected:
     void update(float dt);
     void onDraw();
     void resetGravity(float);
-    
+    void checkNeedPostEvent(float);
 private:
     
     b2World* world;
@@ -47,9 +48,11 @@ private:
     CustomCommand _customCommand;
         GLESDebugDraw* _debugDraw;
     b2Body* _Brickbody;
+    Box2dPhysicSprite* brickSprite;
     bool canTwiceClick = false;
-    LayerColor* obstacleLayer = nullptr;//障碍物的页面
+//    LayerColor* obstacleLayer = nullptr;//障碍物的页面
     float obstacleY = 0;
+    float centerY = 0;
 
 };
 

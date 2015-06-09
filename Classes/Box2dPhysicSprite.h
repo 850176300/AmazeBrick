@@ -15,6 +15,8 @@
 using namespace std;
 USING_NS_CC;
 
+#define kMoveNotifyEvent "kMoveNotifyEvent"
+
 class Box2dPhysicSprite : public Sprite{
 public:
     
@@ -32,6 +34,8 @@ public:
     static Box2dPhysicSprite* create(const string &pszFileName, const Rect& rect);
     
     Box2dPhysicSprite();
+    
+    ~Box2dPhysicSprite();
     
     virtual bool isDirty() const;
     
@@ -58,10 +62,14 @@ public:
     
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     
+    void addMoveEventNotify();
 protected:
+    void onRecieveEvent(Ref* pRef);
+    void checkNeedRemove();
     const Vec2& getPosFromPhysics() const;
     
 protected:
+    bool hadAddNotify = false;
     bool    _ignoreBodyRotation;
     
     // box2d specific
