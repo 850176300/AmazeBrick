@@ -120,6 +120,16 @@ void Box2dLayer::update(float dt) {
     // Instruct the world to perform a single step of simulation. It is
     // generally best to keep the time step and iterations fixed.
     world->Step(dt, velocityIterations, positionIterations);
+    if (brickSprite->getBoundingBox().getMaxY() > centerY && JumpNow == true) {
+        _Brickbody->SetGravityScale(-0.0001);
+        b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
+        _Brickbody->SetLinearVelocity(b2Vec2(speedVec.x, 0));
+        JumpNow = false;
+        float distance = fabs(speedVec.y * 0.1 * PTM_RATIO);
+        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
+        increaseY += distance;
+        checkNeedAddBodys();
+    }
 }
 
 void Box2dLayer::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
@@ -182,7 +192,7 @@ void Box2dLayer::addB2Body(){
         Box2dPhysicSprite* pSprite = Box2dPhysicSprite::create("brick2.png");
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
-        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax + 180 + pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
+        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax + 250 + pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
 
@@ -224,21 +234,24 @@ void Box2dLayer::addBrickBody(){
 }
 
 bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-    if (brickSprite->getBoundingBox().getMaxY() < centerY) {
-        schedule(schedule_selector(Box2dLayer::checkNeedPostEvent), 0.05);
-    }else {
-        _Brickbody->SetGravityScale(-0.1);
-        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-        _Brickbody->SetAngularVelocity(0);
-        if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(50, 0))));
-        }else {
-            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(-50, 0))));
-        }
-        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent);
-        this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
-        return true;
-    }
+//    if (brickSprite->getBoundingBox().getMaxY() < centerY) {
+//        schedule(schedule_selector(Box2dLayer::checkNeedPostEvent), 0.05);
+//    }else {
+//        _Brickbody->SetGravityScale(-0.1);
+//        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+//        _Brickbody->SetAngularVelocity(0);
+//        if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
+//            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(50, 0))));
+//        }else {
+//            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(-50, 0))));
+//        }
+//        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent);
+//        increaseY += 60;
+//        checkNeedAddBodys();
+//        this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
+//        return true;
+//    }
+    JumpNow = true;
     float xForce = -15;
     float yFroce = 100;
     if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
@@ -249,11 +262,12 @@ bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_even
         _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
         yFroce = 70;
         xForce = (xForce > 0 ? 1 : -1)*15;
-        this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
+        
     }else {
         _Brickbody->SetAngularVelocity(0);
         
     }
+    this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
     //    log("the speed is %.2f, %.2f", vel.x, vel.y);
     //    world->SetGravity(b2Vec2(0, 10));
     _Brickbody->ApplyForce(b2Vec2(xForce, 120), _Brickbody->GetWorldCenter(), false);
@@ -276,5 +290,16 @@ void Box2dLayer::checkNeedPostEvent(float dt){
     if (brickSprite->getBoundingBox().getMaxY() > centerY) {
         NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent);
         unschedule(schedule_selector(Box2dLayer::checkNeedPostEvent));
+        increaseY += 60;
+        checkNeedAddBodys();
     }
 }
+
+void Box2dLayer::checkNeedAddBodys(){
+    if (increaseY > 800) {
+        increaseY = 0;
+        addB2Body();
+    }
+}
+
+

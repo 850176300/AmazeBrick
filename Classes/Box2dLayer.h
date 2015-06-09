@@ -41,6 +41,7 @@ protected:
     void onDraw();
     void resetGravity(float);
     void checkNeedPostEvent(float);
+    void checkNeedAddBodys();
 private:
     
     b2World* world;
@@ -53,7 +54,8 @@ private:
 //    LayerColor* obstacleLayer = nullptr;//障碍物的页面
     float obstacleY = 0;
     float centerY = 0;
-
+    float increaseY = 0;
+    bool JumpNow = false;
 };
 
 #endif /* defined(__com_kekeapp_amazebrick__Box2dLayer__) */
