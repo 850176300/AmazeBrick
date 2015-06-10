@@ -69,7 +69,7 @@ void Box2dLayer::initPhysics()
     
     // Do we want to let bodies sleep?
     world->SetAllowSleeping(true);
-    
+    world->SetContactListener(this);
     world->SetContinuousPhysics(true);
     
              _debugDraw = new GLESDebugDraw( PTM_RATIO );
@@ -86,6 +86,7 @@ void Box2dLayer::initPhysics()
     
     // Define the ground body.
     b2BodyDef groundBodyDef;
+    groundBodyDef.userData = (void*)kEdge;
     groundBodyDef.position.Set(0, 0); // bottom-left corner
     
     // Call the body factory which allocates memory for the ground body
@@ -120,16 +121,7 @@ void Box2dLayer::update(float dt) {
     // Instruct the world to perform a single step of simulation. It is
     // generally best to keep the time step and iterations fixed.
     world->Step(dt, velocityIterations, positionIterations);
-    if (brickSprite->getBoundingBox().getMaxY() > centerY && JumpNow == true) {
-        _Brickbody->SetGravityScale(-0.0001);
-        b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
-        _Brickbody->SetLinearVelocity(b2Vec2(speedVec.x, 0));
-        JumpNow = false;
-        float distance = fabs(speedVec.y * 0.1 * PTM_RATIO);
-        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
-        increaseY += distance;
-        checkNeedAddBodys();
-    }
+   
 }
 
 void Box2dLayer::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
@@ -175,12 +167,13 @@ void Box2dLayer::addB2Body(){
         Box2dPhysicSprite* pSprite = Box2dPhysicSprite::create("brick2.png");
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
+        bodyDef.userData = (void*)kMonster;
         bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
         GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_body, "brick2");
         
-        _body->SetGravityScale(-1.0);
+        _body->SetGravityScale(0);
         _body->SetBullet(true);
         pSprite->setB2Body(_body);
         pSprite->setPTMRatio(PTM_RATIO);
@@ -192,13 +185,14 @@ void Box2dLayer::addB2Body(){
         Box2dPhysicSprite* pSprite = Box2dPhysicSprite::create("brick2.png");
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
+        bodyDef.userData = (void*)kMonster;
         bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax + 250 + pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
 
         
         GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_body, "brick2");
-        _body->SetGravityScale(-1.0);
+        _body->SetGravityScale(0);
         _body->SetBullet(true);
         pSprite->setB2Body(_body);
         pSprite->setPTMRatio(PTM_RATIO);
@@ -213,6 +207,7 @@ void Box2dLayer::addBrickBody(){
     brickSprite = Box2dPhysicSprite::create("brick1.png");
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
+    bodyDef.userData = (void*)kBrick;
     bodyDef.position.Set(STVisibleRect::getCenterOfScene().x / PTM_RATIO, (STVisibleRect::getCenterOfScene().y - 50) / PTM_RATIO);
     _Brickbody = world->CreateBody(&bodyDef);
     // Define another box shape for our dynamic body.
@@ -229,6 +224,28 @@ void Box2dLayer::addBrickBody(){
     brickSprite->setIgnoreBodyRotation(true);
     _Brickbody->SetFixedRotation(false);
     addChild(brickSprite);
+    
+    
+    b2BodyDef _def;
+    _def.type = b2_staticBody;
+    _def.position.Set(STVisibleRect::getCenterOfScene().x/PTM_RATIO, (STVisibleRect::getCenterOfScene().y + 50) / PTM_RATIO);
+    _def.userData = (void*)kCenterBox;
+    b2Body* _body = world->CreateBody(&_def);
+    
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(STVisibleRect::getGlvisibleSize().width / PTM_RATIO, 0.5);//These are mid points for our 1m box
+    
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 2.0;
+    fixtureDef.friction = 1.0f;
+    fixtureDef.restitution = 0.0f;
+    
+    _body->CreateFixture(&fixtureDef);
+    _body->SetBullet(true);
+    _body->SetActive(true);
+
     
     
 }
@@ -252,16 +269,16 @@ bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_even
 //        return true;
 //    }
     JumpNow = true;
-    float xForce = -15;
+    xForce = -25;
     float yFroce = 100;
     if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-        xForce = 15;
+        xForce = 25;
     }
     if (canTwiceClick == false) {
         canTwiceClick = true;
         _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
         yFroce = 70;
-        xForce = (xForce > 0 ? 1 : -1)*15;
+        xForce = (xForce > 0 ? 1 : -1)*25;
         
     }else {
         _Brickbody->SetAngularVelocity(0);
@@ -298,8 +315,43 @@ void Box2dLayer::checkNeedPostEvent(float dt){
 void Box2dLayer::checkNeedAddBodys(){
     if (increaseY > 800) {
         increaseY = 0;
-        addB2Body();
+        runAction(Sequence::create(DelayTime::create(0.1), CallFunc::create(std::bind(&Box2dLayer::addB2Body, this)), NULL));
     }
 }
 
+void Box2dLayer::BeginContact(b2Contact *contact) {
+    
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();
+    b2Body* bodyB = contact->GetFixtureB()->GetBody();
+    char* Astring = (char*)bodyA->GetUserData();
+    char* Bstring = (char*)bodyB->GetUserData();
+    //    log("A string is %s", Astring);
+    //    log("B string is %s", Bstring);
+    if (CompareTwo(__String::create(Astring), __String::create(Bstring), kBrick, kCenterBox) == true) {
+            b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
+            _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+            _Brickbody->SetAngularVelocity(0);
+            JumpNow = false;
+            float distance = fabs(speedVec.y * 0.5 * PTM_RATIO);
+            float disx = xForce * 0.5 * 5;
+            NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
+            brickSprite->runAction(MoveBy::create(0.5, Vec2(disx, 0)));
+            increaseY += distance;
+            checkNeedAddBodys();
+    }
+}
 
+void Box2dLayer::EndContact(b2Contact *contact) {
+    
+}
+
+
+bool Box2dLayer::CompareTwo(cocos2d::__String *src1, cocos2d::__String *src2, const string &dst1, const string &dst2) {
+    if (string(src1->getCString()).find(dst1.c_str()) != string::npos && string(src2->getCString()).find(dst2.c_str()) != string::npos) {
+        return true;
+    }
+    if (string(src1->getCString()).find(dst2.c_str()) != string::npos && string(src2->getCString()).find(dst1.c_str())  != string::npos) {
+        return true;
+    }
+    return false;
+}
