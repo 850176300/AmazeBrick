@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
 #include "GLES-Render.h"
+#include "BrickComponent.h"
 using namespace cocos2d;
 class HelloWorld : public cocos2d::LayerColor
 {
@@ -26,9 +27,8 @@ public:
     virtual void onTouchEnded(Touch *touch, Event *unused_event);
     virtual void onTouchCancelled(Touch *touch, Event *unused_event){}
 private:
-    void update(float dt);
     void addlongBrick();
-    Sprite* brickSprite = nullptr;
+    BrickSprite* brickSprite = nullptr;
     LayerColor* obstacleLayer = nullptr;//障碍物的页面
     float obstacleY = 0;
     float startCenterY ;

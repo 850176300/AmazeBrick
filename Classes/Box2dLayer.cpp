@@ -328,16 +328,16 @@ void Box2dLayer::BeginContact(b2Contact *contact) {
     //    log("A string is %s", Astring);
     //    log("B string is %s", Bstring);
     if (CompareTwo(__String::create(Astring), __String::create(Bstring), kBrick, kCenterBox) == true) {
-            b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
-            _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-            _Brickbody->SetAngularVelocity(0);
-            JumpNow = false;
-            float distance = fabs(speedVec.y * 0.5 * PTM_RATIO);
-            float disx = xForce * 0.5 * 5;
-            NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
-            brickSprite->runAction(MoveBy::create(0.5, Vec2(disx, 0)));
-            increaseY += distance;
-            checkNeedAddBodys();
+        b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
+        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+        _Brickbody->SetAngularVelocity(0);
+        JumpNow = false;
+        float distance = 0.5*(fabs(speedVec.y)*0.5 - 300/PTM_RATIO*0.5*0.5)*PTM_RATIO;//fabs(speedVec.y * 0.5 * PTM_RATIO);
+        float disx = xForce * 0.25 * 5;
+        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
+        brickSprite->runAction(MoveBy::create(0.5, Vec2(disx, 0)));
+        increaseY += distance;
+        checkNeedAddBodys();
     }
 }
 

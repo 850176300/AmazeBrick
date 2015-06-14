@@ -61,9 +61,11 @@ bool HelloWorld::init()
     addlongBrick();
     
     startCenterY = STVisibleRect::getCenterOfScene().y;
-    brickSprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-block.png"));
+    brickSprite = BrickSprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-block.png"));
     brickSprite->setPosition(STVisibleRect::getCenterOfScene().x, startCenterY - 50);
     brickSprite->setColor(Color3B::BLACK);
+    brickSprite->addComponent(new BrickComponent());
+    brickSprite->scheduleUpdate();
     addChild(brickSprite, 1);
     
     return true;
@@ -87,20 +89,12 @@ void HelloWorld::addlongBrick(){
 }
 
 bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-    if (isFirst == true){
-        scheduleUpdate();
+    if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
+        brickSprite->tapRSide();
+    }else {
+        brickSprite->tapLSide();
     }
-    float xEnerge = -100;
-    float yEnerge = 300;
-//    if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-//        xEnerge = 100;
-//    }
-//    speedx = xEnerge;
-    speedx = 0;
-    speedy = yEnerge;
-    if (brickSprite->getPositionY() >= startCenterY) {
-        
-    }
+
     return true;
 }
 
@@ -109,15 +103,6 @@ void HelloWorld::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_even
 
 }
 
-
-void HelloWorld::update(float dt) {
-    speedx += xgrabity*dt;
-    if (fabs(speedx) <= 1) {
-        speedx = 0;
-    }
-    speedy += graverty*dt;
-    brickSprite->setPosition(brickSprite->getPosition() + Vec2(speedx*dt, speedy*dt));
-}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

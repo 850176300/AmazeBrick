@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010D98A41B2D2DF900B97856 /* BrickComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010D98A21B2D2DF900B97856 /* BrickComponent.cpp */; };
+		010D98AD1B2D340300B97856 /* BrickSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010D98AB1B2D340300B97856 /* BrickSprite.cpp */; };
+		010D98C21B2D55A400B97856 /* JumpByDrop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 010D98C11B2D55A400B97856 /* JumpByDrop.cpp */; };
 		01265FF81B253C79001909E2 /* b2BodySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FF61B253C79001909E2 /* b2BodySprite.cpp */; };
 		01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */; };
 		012B53AA1B25E561001E8F62 /* Box2dLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 012B53A81B25E561001E8F62 /* Box2dLayer.cpp */; };
@@ -227,6 +230,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010D98A21B2D2DF900B97856 /* BrickComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BrickComponent.cpp; path = ../Classes/BrickComponent.cpp; sourceTree = "<group>"; };
+		010D98A31B2D2DF900B97856 /* BrickComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrickComponent.h; path = ../Classes/BrickComponent.h; sourceTree = "<group>"; };
+		010D98A81B2D312800B97856 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		010D98AB1B2D340300B97856 /* BrickSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BrickSprite.cpp; path = ../Classes/BrickSprite.cpp; sourceTree = "<group>"; };
+		010D98AC1B2D340300B97856 /* BrickSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrickSprite.h; path = ../Classes/BrickSprite.h; sourceTree = "<group>"; };
+		010D98C11B2D55A400B97856 /* JumpByDrop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JumpByDrop.cpp; sourceTree = "<group>"; };
+		010D98C51B2D75B800B97856 /* JumpByDrop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JumpByDrop.h; sourceTree = "<group>"; };
 		01265FF61B253C79001909E2 /* b2BodySprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BodySprite.cpp; sourceTree = "<group>"; };
 		01265FF71B253C79001909E2 /* b2BodySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BodySprite.h; sourceTree = "<group>"; };
 		01265FFB1B254614001909E2 /* Box2dPhysicSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2dPhysicSprite.cpp; sourceTree = "<group>"; };
@@ -387,6 +397,13 @@
 				0148DA0F1B2595CD00EA6796 /* STMacro.h */,
 				012B53A81B25E561001E8F62 /* Box2dLayer.cpp */,
 				012B53A91B25E561001E8F62 /* Box2dLayer.h */,
+				010D98A21B2D2DF900B97856 /* BrickComponent.cpp */,
+				010D98A31B2D2DF900B97856 /* BrickComponent.h */,
+				010D98A81B2D312800B97856 /* Config.h */,
+				010D98AB1B2D340300B97856 /* BrickSprite.cpp */,
+				010D98AC1B2D340300B97856 /* BrickSprite.h */,
+				010D98C51B2D75B800B97856 /* JumpByDrop.h */,
+				010D98C11B2D55A400B97856 /* JumpByDrop.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -724,6 +741,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				010D98A41B2D2DF900B97856 /* BrickComponent.cpp in Sources */,
 				01265FFD1B254614001909E2 /* Box2dPhysicSprite.cpp in Sources */,
 				013DC0D41B26C7790043C952 /* GB2ShapeCache-x.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -733,7 +751,9 @@
 				0148DA0C1B25958D00EA6796 /* STVisibleRect.cpp in Sources */,
 				012B53AA1B25E561001E8F62 /* Box2dLayer.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
+				010D98AD1B2D340300B97856 /* BrickSprite.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				010D98C21B2D55A400B97856 /* JumpByDrop.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 				01E2671D1B248BED00720494 /* GLES-Render.cpp in Sources */,
 			);
