@@ -62,7 +62,7 @@ bool HelloWorld::init()
     
     startCenterY = STVisibleRect::getCenterOfScene().y;
     brickSprite = BrickSprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-block.png"));
-    brickSprite->setPosition(STVisibleRect::getCenterOfScene().x, startCenterY - 50);
+    brickSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x, startCenterY - 50));
     brickSprite->setColor(Color3B::BLACK);
     brickSprite->addComponent(new BrickComponent());
     brickSprite->scheduleUpdate();

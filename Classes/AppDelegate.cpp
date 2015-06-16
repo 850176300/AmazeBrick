@@ -30,7 +30,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     GB2ShapeCache::sharedGB2ShapeCache()->addShapesWithFile("BrickShape.plist");
     
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = Box2dLayer::scene();
 
     // run
     director->runWithScene(scene);

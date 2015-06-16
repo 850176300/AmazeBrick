@@ -324,9 +324,12 @@ void Box2dPhysicSprite::addMoveEventNotify(){
 }
 
 void Box2dPhysicSprite::onRecieveEvent(cocos2d::Ref *pRef) {
-    __String* distance = dynamic_cast<__String*>(pRef);
-    float dis = atof(distance->getCString());
-    this->runAction(Sequence::create(EaseSineInOut::create(MoveBy::create(0.5, Vec2(0, -dis))), CallFunc::create(std::bind(&Box2dPhysicSprite::checkNeedRemove, this)),NULL));
+    __String* data = dynamic_cast<__String*>(pRef);
+    float infor = atof(data->getCString());
+    float distance = infor - (((int)infor) / 1000)*1000;
+    float dt = (((int)infor) / 1000) * 0.1;
+
+    this->runAction(Sequence::create(EaseSineInOut::create(MoveBy::create(dt, Vec2(0, -distance))), CallFunc::create(std::bind(&Box2dPhysicSprite::checkNeedRemove, this)),NULL));
 }
 
 void Box2dPhysicSprite::checkNeedRemove(){

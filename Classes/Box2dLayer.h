@@ -14,6 +14,7 @@
 #include "Box2D/Box2D.h"
 #include "GLES-Render.h"
 #include "Box2dPhysicSprite.h"
+#include "BrickComponent.h"
 USING_NS_CC;
 using namespace std;
 
@@ -49,7 +50,7 @@ protected:
     virtual void BeginContact(b2Contact* contact) ;
     virtual void EndContact(b2Contact* contact) ;
     bool CompareTwo(cocos2d::__String *src1, cocos2d::__String *src2, const string &dst1, const string &dst2);
-    
+    void onRecieveEvent(Ref* pref);
 private:
     
     b2World* world;
@@ -57,7 +58,7 @@ private:
     CustomCommand _customCommand;
         GLESDebugDraw* _debugDraw;
     b2Body* _Brickbody;
-    Box2dPhysicSprite* brickSprite;
+    BrickSprite* brickSprite;
     bool canTwiceClick = false;
 //    LayerColor* obstacleLayer = nullptr;//障碍物的页面
     float obstacleY = 0;

@@ -56,6 +56,8 @@ bool Box2dLayer::init(){
         listener->onTouchCancelled = CC_CALLBACK_2(Box2dLayer::onTouchCancelled, this);
         
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        
+        NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(Box2dLayer::onRecieveEvent), kMoveNotifyEvent, nullptr);
         return true;
     }
     return false;
@@ -160,6 +162,14 @@ void Box2dLayer::onDraw()
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, oldMV);
 }
 
+void Box2dLayer::onRecieveEvent(cocos2d::Ref *pref) {
+    __String* data = dynamic_cast<__String*>(pref);
+    float infor = atof(data->getCString());
+    float distance = infor - (((int)infor) / 1000)*1000;
+    increaseY += distance;
+    checkNeedAddBodys();
+}
+
 void Box2dLayer::addB2Body(){
     float deltax = arc4random() % 10 ;
     deltax = (deltax - 5) * 30;
@@ -204,7 +214,7 @@ void Box2dLayer::addB2Body(){
 }
 
 void Box2dLayer::addBrickBody(){
-    brickSprite = Box2dPhysicSprite::create("brick1.png");
+    brickSprite = BrickSprite::create("brick1.png");
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.userData = (void*)kBrick;
@@ -214,7 +224,7 @@ void Box2dLayer::addBrickBody(){
     
     GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_Brickbody, "brick1");
     
-    _Brickbody->SetGravityScale(-1.0);
+    _Brickbody->SetGravityScale(0);
     _Brickbody->SetBullet(true);
     //    b2MassData* pData = nullptr;
     //    _Brickbody->GetMassData(pData);
@@ -223,28 +233,29 @@ void Box2dLayer::addBrickBody(){
     brickSprite->setColor(Color3B::BLACK);
     brickSprite->setIgnoreBodyRotation(true);
     _Brickbody->SetFixedRotation(false);
+    brickSprite->addComponent(new BrickComponent());
     addChild(brickSprite);
+    brickSprite->scheduleUpdate();
     
-    
-    b2BodyDef _def;
-    _def.type = b2_staticBody;
-    _def.position.Set(STVisibleRect::getCenterOfScene().x/PTM_RATIO, (STVisibleRect::getCenterOfScene().y + 50) / PTM_RATIO);
-    _def.userData = (void*)kCenterBox;
-    b2Body* _body = world->CreateBody(&_def);
-    
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(STVisibleRect::getGlvisibleSize().width / PTM_RATIO, 0.5);//These are mid points for our 1m box
-    
-    // Define the dynamic body fixture.
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 2.0;
-    fixtureDef.friction = 1.0f;
-    fixtureDef.restitution = 0.0f;
-    
-    _body->CreateFixture(&fixtureDef);
-    _body->SetBullet(true);
-    _body->SetActive(true);
+//    b2BodyDef _def;
+//    _def.type = b2_staticBody;
+//    _def.position.Set(STVisibleRect::getCenterOfScene().x/PTM_RATIO, (STVisibleRect::getCenterOfScene().y + 50) / PTM_RATIO);
+//    _def.userData = (void*)kCenterBox;
+//    b2Body* _body = world->CreateBody(&_def);
+//    
+//    b2PolygonShape dynamicBox;
+//    dynamicBox.SetAsBox(STVisibleRect::getGlvisibleSize().width / PTM_RATIO, 0.5);//These are mid points for our 1m box
+//    
+//    // Define the dynamic body fixture.
+//    b2FixtureDef fixtureDef;
+//    fixtureDef.shape = &dynamicBox;
+//    fixtureDef.density = 2.0;
+//    fixtureDef.friction = 1.0f;
+//    fixtureDef.restitution = 0.0f;
+//    
+//    _body->CreateFixture(&fixtureDef);
+//    _body->SetBullet(true);
+//    _body->SetActive(true);
 
     
     
@@ -268,26 +279,31 @@ bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_even
 //        this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
 //        return true;
 //    }
-    JumpNow = true;
-    xForce = -25;
-    float yFroce = 100;
     if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-        xForce = 25;
-    }
-    if (canTwiceClick == false) {
-        canTwiceClick = true;
-        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-        yFroce = 70;
-        xForce = (xForce > 0 ? 1 : -1)*25;
-        
+        brickSprite->tapRSide();
     }else {
-        _Brickbody->SetAngularVelocity(0);
-        
+        brickSprite->tapLSide();
     }
-    this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
-    //    log("the speed is %.2f, %.2f", vel.x, vel.y);
-    //    world->SetGravity(b2Vec2(0, 10));
-    _Brickbody->ApplyForce(b2Vec2(xForce, 120), _Brickbody->GetWorldCenter(), false);
+//    JumpNow = true;
+//    xForce = -25;
+//    float yFroce = 100;
+//    if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
+//        xForce = 25;
+//    }
+//    if (canTwiceClick == false) {
+//        canTwiceClick = true;
+//        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+//        yFroce = 70;
+//        xForce = (xForce > 0 ? 1 : -1)*25;
+//        
+//    }else {
+//        _Brickbody->SetAngularVelocity(0);
+//        
+//    }
+//    this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
+//    //    log("the speed is %.2f, %.2f", vel.x, vel.y);
+//    //    world->SetGravity(b2Vec2(0, 10));
+//    _Brickbody->ApplyForce(b2Vec2(xForce, 120), _Brickbody->GetWorldCenter(), false);
     
     return true;
 }

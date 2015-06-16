@@ -11,9 +11,10 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "Box2dPhysicSprite.h"
 USING_NS_CC;
 using namespace std;
-class BrickSprite : public Sprite{
+class BrickSprite : public Box2dPhysicSprite{
 public:
     enum BrickStatues{
         kDie = 1,
@@ -31,6 +32,8 @@ public:
     virtual bool initWithFrame(SpriteFrame* frame);
     
     CC_SYNTHESIZE(BrickStatues, statue, Statues);
+    
+    void brickDie();
     
     void tapRSide();
     

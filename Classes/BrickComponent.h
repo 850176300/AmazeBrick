@@ -24,9 +24,19 @@ protected:
     virtual void onEnter();
     void touchLAction();
     void touchRAction();
+    void step(float t);
 private:
     Action* curAction = nullptr;
     BrickSprite* parent;
+    Vec2 _startPosition;
+    Vec2 _previousPos;
+    float _height;
+    Vec2 _delta;
+    float _moveHeight = 0;
+    float speedY = 0;
+    float _elapsed = 0;
+    float _durantion = 0;
+    bool startMove = false;
     
 };
 

@@ -71,7 +71,7 @@ void JumpByDrop::step(float dt)
     }
     
     this->update(MAX (0,                                  // needed for rewind. elapsed could be negative
-                      MIN(1, _elapsed /
+                      MIN(1.0, _elapsed /
                           MAX(_duration, FLT_EPSILON)   // division by 0
                           )
                       )
@@ -103,12 +103,12 @@ void JumpByDrop::startWithTarget(Node *target)
 
 void JumpByDrop::update(float t) 
 {
-   
+    log("the t delta time is %.2f", t);
     // parabolic jump (since v0.8.2)
     if (_target)
     {
         float frac = fmodf( t * _jumps, 1.0f );
-        float y = _height * 4 * frac * (1 - frac);
+        float y = _height * 4 *  frac * (1 - frac);
         y += _delta.y * t;
 
         float x = _delta.x * t;

@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../classes/JumpByDrop.cpp"
-            timestampString = "455966669.868867"
+            filePath = "../cocos2d/cocos/2d/CCActionManager.cpp"
+            timestampString = "456119459.357618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "JumpByDrop::step(float dt)"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
+            landmarkName = "ActionManager::update(float dt)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../classes/JumpByDrop.cpp"
+            timestampString = "456119491.753488"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "JumpByDrop::isDone()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
