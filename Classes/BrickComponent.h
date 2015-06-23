@@ -37,6 +37,7 @@ private:
     float _elapsed = 0;
     float _durantion = 0;
     bool startMove = false;
+    bool changeSpeed = false;
     
 };
 

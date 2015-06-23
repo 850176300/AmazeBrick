@@ -22,7 +22,7 @@ using namespace std;
 #define kBrick "brick"
 #define kEdge "edge"
 #define kMonster "monster"
-class Box2dLayer : public LayerColor, public b2ContactListener{
+class Box2dLayer : public Layer, public b2ContactListener{
 public:
     static Scene* scene();
     

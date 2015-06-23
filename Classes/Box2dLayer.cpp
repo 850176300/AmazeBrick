@@ -12,6 +12,7 @@
 #include "STVisibleRect.h"
 #include "b2BodySprite.h"
 #include "GB2ShapeCache-x.h"
+#include "Config.h"
 #define PTM_RATIO 32.0
 USING_NS_ST;
 
@@ -41,7 +42,11 @@ Box2dLayer*  Box2dLayer::createWithePhysic(){
 }
 
 bool Box2dLayer::init(){
-    if (LayerColor::initWithColor(Color4B(255, 255, 255, 255))) {
+    if (Layer::init()) {
+        Sprite* bg = Sprite::create("bg.png");
+        bg->setPosition(STVisibleRect::getCenterOfScene());
+        addChild(bg);
+        
         obstacleY = STVisibleRect::getPointOfSceneLeftUp().y;
         centerY = STVisibleRect::getCenterOfScene().y + 50;
         
@@ -133,7 +138,7 @@ void Box2dLayer::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     // This is only for debug purposes
     // It is recommend to disable it
     //
-    LayerColor::draw(renderer, transform, flags);
+    Layer::draw(renderer, transform, flags);
     
     GL::enableVertexAttribs( cocos2d::GL::VERTEX_ATTRIB_FLAG_POSITION );
     Director* director = Director::getInstance();
@@ -178,7 +183,7 @@ void Box2dLayer::addB2Body(){
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
         bodyDef.userData = (void*)kMonster;
-        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
+        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY)/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
         GB2ShapeCache::sharedGB2ShapeCache()->addFixturesToBody(_body, "brick2");
@@ -188,6 +193,7 @@ void Box2dLayer::addB2Body(){
         pSprite->setB2Body(_body);
         pSprite->setPTMRatio(PTM_RATIO);
         pSprite->setColor(Color3B(220, 250, 160));
+        pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0, obstacleY));
         addChild(pSprite);
         pSprite->addMoveEventNotify();
     }
@@ -196,7 +202,7 @@ void Box2dLayer::addB2Body(){
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
         bodyDef.userData = (void*)kMonster;
-        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax + 250 + pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY + pSprite->getContentSize().height / 2.0)/PTM_RATIO);
+        bodyDef.position.Set((STVisibleRect::getCenterOfScene().x + deltax + 320 + pSprite->getContentSize().width/2.0)/PTM_RATIO, (obstacleY )/PTM_RATIO);
         b2Body* _body = world->CreateBody(&bodyDef);
         // Define another box shape for our dynamic body.
 
@@ -206,10 +212,15 @@ void Box2dLayer::addB2Body(){
         _body->SetBullet(true);
         pSprite->setB2Body(_body);
         pSprite->setPTMRatio(PTM_RATIO);
-
+        pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax + 250 + pSprite->getContentSize().width/2.0, obstacleY));
         pSprite->setColor(Color3B(220, 250, 160));
         addChild(pSprite);
         pSprite->addMoveEventNotify();
+    }
+
+    {
+        
+        
     }
 }
 
@@ -228,83 +239,22 @@ void Box2dLayer::addBrickBody(){
     _Brickbody->SetBullet(true);
     //    b2MassData* pData = nullptr;
     //    _Brickbody->GetMassData(pData);
-    brickSprite->setB2Body(_Brickbody);
-    brickSprite->setPTMRatio(PTM_RATIO);
+//    brickSprite->setB2Body(_Brickbody);
+//    brickSprite->setPTMRatio(PTM_RATIO);
     brickSprite->setColor(Color3B::BLACK);
-    brickSprite->setIgnoreBodyRotation(true);
+//    brickSprite->setIgnoreBodyRotation(true);
     _Brickbody->SetFixedRotation(false);
     brickSprite->addComponent(new BrickComponent());
     addChild(brickSprite);
     brickSprite->scheduleUpdate();
-    
-//    b2BodyDef _def;
-//    _def.type = b2_staticBody;
-//    _def.position.Set(STVisibleRect::getCenterOfScene().x/PTM_RATIO, (STVisibleRect::getCenterOfScene().y + 50) / PTM_RATIO);
-//    _def.userData = (void*)kCenterBox;
-//    b2Body* _body = world->CreateBody(&_def);
-//    
-//    b2PolygonShape dynamicBox;
-//    dynamicBox.SetAsBox(STVisibleRect::getGlvisibleSize().width / PTM_RATIO, 0.5);//These are mid points for our 1m box
-//    
-//    // Define the dynamic body fixture.
-//    b2FixtureDef fixtureDef;
-//    fixtureDef.shape = &dynamicBox;
-//    fixtureDef.density = 2.0;
-//    fixtureDef.friction = 1.0f;
-//    fixtureDef.restitution = 0.0f;
-//    
-//    _body->CreateFixture(&fixtureDef);
-//    _body->SetBullet(true);
-//    _body->SetActive(true);
-
-    
-    
 }
 
 bool Box2dLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event) {
-//    if (brickSprite->getBoundingBox().getMaxY() < centerY) {
-//        schedule(schedule_selector(Box2dLayer::checkNeedPostEvent), 0.05);
-//    }else {
-//        _Brickbody->SetGravityScale(-0.1);
-//        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-//        _Brickbody->SetAngularVelocity(0);
-//        if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-//            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(50, 0))));
-//        }else {
-//            brickSprite->runAction(EaseSineInOut::create(MoveBy::create(0.5, Vec2(-50, 0))));
-//        }
-//        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent);
-//        increaseY += 60;
-//        checkNeedAddBodys();
-//        this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
-//        return true;
-//    }
     if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
         brickSprite->tapRSide();
     }else {
         brickSprite->tapLSide();
     }
-//    JumpNow = true;
-//    xForce = -25;
-//    float yFroce = 100;
-//    if (touch->getLocation().x > Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0) {
-//        xForce = 25;
-//    }
-//    if (canTwiceClick == false) {
-//        canTwiceClick = true;
-//        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-//        yFroce = 70;
-//        xForce = (xForce > 0 ? 1 : -1)*25;
-//        
-//    }else {
-//        _Brickbody->SetAngularVelocity(0);
-//        
-//    }
-//    this->scheduleOnce(schedule_selector(Box2dLayer::resetGravity), 0.5f);
-//    //    log("the speed is %.2f, %.2f", vel.x, vel.y);
-//    //    world->SetGravity(b2Vec2(0, 10));
-//    _Brickbody->ApplyForce(b2Vec2(xForce, 120), _Brickbody->GetWorldCenter(), false);
-    
     return true;
 }
 
@@ -343,17 +293,20 @@ void Box2dLayer::BeginContact(b2Contact *contact) {
     char* Bstring = (char*)bodyB->GetUserData();
     //    log("A string is %s", Astring);
     //    log("B string is %s", Bstring);
-    if (CompareTwo(__String::create(Astring), __String::create(Bstring), kBrick, kCenterBox) == true) {
-        b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
-        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
-        _Brickbody->SetAngularVelocity(0);
-        JumpNow = false;
-        float distance = 0.5*(fabs(speedVec.y)*0.5 - 300/PTM_RATIO*0.5*0.5)*PTM_RATIO;//fabs(speedVec.y * 0.5 * PTM_RATIO);
-        float disx = xForce * 0.25 * 5;
-        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
-        brickSprite->runAction(MoveBy::create(0.5, Vec2(disx, 0)));
-        increaseY += distance;
-        checkNeedAddBodys();
+    if (CompareTwo(__String::create(Astring), __String::create(Bstring), kBrick, kMonster) == true) {
+//        world->SetContactListener(nullptr);
+//        brickSprite->brickDie();
+        
+//        b2Vec2 speedVec = _Brickbody->GetLinearVelocity();
+//        _Brickbody->SetLinearVelocity(b2Vec2(0, 0));
+//        _Brickbody->SetAngularVelocity(0);
+//        JumpNow = false;
+//        float distance = 0.5*(fabs(speedVec.y)*0.5 - 300/PTM_RATIO*0.5*0.5)*PTM_RATIO;//fabs(speedVec.y * 0.5 * PTM_RATIO);
+//        float disx = xForce * 0.25 * 5;
+//        NotificationCenter::getInstance()->postNotification(kMoveNotifyEvent, __String::createWithFormat("%.2f", distance));
+//        brickSprite->runAction(MoveBy::create(0.5, Vec2(disx, 0)));
+//        increaseY += distance;
+//        checkNeedAddBodys();
     }
 }
 

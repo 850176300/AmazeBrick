@@ -7,6 +7,7 @@
 //
 
 #include "Box2dPhysicSprite.h"
+#include "Config.h"
 Box2dPhysicSprite::Box2dPhysicSprite()
 : _ignoreBodyRotation(false)
 , _pB2Body(nullptr)

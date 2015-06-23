@@ -7,6 +7,13 @@
 //
 
 #include "b2BodySprite.h"
+#include "Config.h"
+
+b2BodySprite::~b2BodySprite(){
+    if (hadAddNotify == true) {
+        NotificationCenter::getInstance()->removeObserver(this, kMoveNotifyEvent);
+    }
+}
 
 b2BodySprite* b2BodySprite::create(const string &filename) {
     b2BodySprite* pRet = new b2BodySprite();
@@ -81,4 +88,32 @@ void b2BodySprite::setPositionWithBool(const cocos2d::Vec2 &pos, bool ignorgAnch
         }
     }
 }
+
+void b2BodySprite::addMoveEventNotify(){
+    if (hadAddNotify == true){
+        return;
+    }
+    hadAddNotify = true;
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(b2BodySprite::onRecieveEvent), kMoveNotifyEvent, nullptr);
+}
+
+void b2BodySprite::onRecieveEvent(cocos2d::Ref *pRef) {
+    __String* data = dynamic_cast<__String*>(pRef);
+    float infor = atof(data->getCString());
+    float distance = infor - (((int)infor) / 1000)*1000;
+    float dt = (((int)infor) / 1000) * 0.1;
+    
+    this->runAction(Sequence::create(EaseSineInOut::create(MoveBy::create(dt, Vec2(0, -distance))), CallFunc::create(std::bind(&b2BodySprite::checkNeedRemove, this)),NULL));
+}
+
+void b2BodySprite::checkNeedRemove(){
+    if (getBoundingBox().getMaxY() < Director::getInstance()->getVisibleOrigin().y) {
+        if (_pB2Body != nullptr) {
+            _pB2Body->GetWorld()->DestroyBody(_pB2Body);
+        }
+        removeFromParent();
+    }
+}
+
+
 

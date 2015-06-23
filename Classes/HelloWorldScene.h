@@ -9,6 +9,7 @@ using namespace cocos2d;
 class HelloWorld : public cocos2d::LayerColor
 {
 public:
+    ~HelloWorld();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
     
@@ -26,17 +27,15 @@ public:
     virtual void onTouchMoved(Touch *touch, Event *unused_event){}
     virtual void onTouchEnded(Touch *touch, Event *unused_event);
     virtual void onTouchCancelled(Touch *touch, Event *unused_event){}
+protected:
+    void onRecieveEvent(Ref* pRef);
+    void checkNeedAddBodys();
 private:
     void addlongBrick();
     BrickSprite* brickSprite = nullptr;
-    LayerColor* obstacleLayer = nullptr;//障碍物的页面
     float obstacleY = 0;
     float startCenterY ;
-    bool isFirst = true;
-    float speedx = 0;
-    float speedy = 0;
-    float graverty = -300;
-    float xgrabity = -50;
+    float increaseY = 0;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -15,7 +15,7 @@
 using namespace std;
 USING_NS_CC;
 
-#define kMoveNotifyEvent "kMoveNotifyEvent"
+
 
 class Box2dPhysicSprite : public Sprite{
 public:

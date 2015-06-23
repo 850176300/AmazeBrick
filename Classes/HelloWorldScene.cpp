@@ -3,6 +3,7 @@
 #include "b2BodySprite.h"
 #include "Box2dPhysicSprite.h"
 #include "STVisibleRect.h"
+#include "Config.h"
 USING_NS_CC;
 USING_NS_ST;
 #define PTM_RATIO 32.0
@@ -31,8 +32,11 @@ HelloWorld* HelloWorld::createWithPhysic(){
     }
 }
 
+HelloWorld::~HelloWorld(){
+    NotificationCenter::getInstance()->removeObserver(this, kMoveNotifyEvent);
+}
 
-    
+
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
@@ -43,9 +47,10 @@ bool HelloWorld::init()
     {
         return false;
     }
-    obstacleLayer = LayerColor::create();
-    obstacleLayer->setPosition(Vec2(STVisibleRect::getOriginalPoint().x, STVisibleRect::getPointOfSceneLeftUp().y));
-    addChild(obstacleLayer);
+    obstacleY = STVisibleRect::getPointOfSceneLeftUp().y;
+//    obstacleLayer = LayerColor::create();
+//    obstacleLayer->setPosition(Vec2(STVisibleRect::getOriginalPoint().x, STVisibleRect::getPointOfSceneLeftUp().y));
+//    addChild(obstacleLayer);
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("common.plist");
     
     auto listener = EventListenerTouchOneByOne::create();
@@ -68,23 +73,44 @@ bool HelloWorld::init()
     brickSprite->scheduleUpdate();
     addChild(brickSprite, 1);
     
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(HelloWorld::onRecieveEvent), kMoveNotifyEvent, nullptr);
+    
     return true;
+}
+
+void HelloWorld::onRecieveEvent(cocos2d::Ref *pRef){
+    __String* data = dynamic_cast<__String*>(pRef);
+    float infor = atof(data->getCString());
+    float distance = infor - (((int)infor) / 1000)*1000;
+    increaseY += distance;
+    checkNeedAddBodys();
+}
+
+void HelloWorld::checkNeedAddBodys(){
+    if (increaseY > 800) {
+        increaseY = 0;
+        runAction(Sequence::create(DelayTime::create(0.1), CallFunc::create(std::bind(&HelloWorld::addlongBrick, this)), NULL));
+    }
 }
 
 void HelloWorld::addlongBrick(){
     float deltax = arc4random() % 10 ;
     deltax = (deltax - 5) * 30;
     {
-        Sprite* pSprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
+        b2BodySprite* pSprite = b2BodySprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
         pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax - pSprite->getContentSize().width/2.0, obstacleY + pSprite->getContentSize().height / 2.0));
         pSprite->setColor(Color3B(200, 240, 240));
-        obstacleLayer->addChild(pSprite);
+        addChild(pSprite);
+        pSprite->addMoveEventNotify();
     }
     {
-        Sprite* pSprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
-        pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax + 180 + pSprite->getContentSize().width/2.0, obstacleY + pSprite->getContentSize().height / 2.0));
+        b2BodySprite* pSprite = b2BodySprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("ingame-brick-long.png"));
+        pSprite->setPosition(Vec2(STVisibleRect::getCenterOfScene().x + deltax + 220 + pSprite->getContentSize().width/2.0, obstacleY + pSprite->getContentSize().height / 2.0));
+        
         pSprite->setColor(Color3B(200, 240, 240));
-        obstacleLayer->addChild(pSprite);
+        addChild(pSprite);
+        pSprite->addMoveEventNotify();
+        
     }
 }
 

@@ -17,7 +17,7 @@ USING_NS_CC;
 
 class b2BodySprite : public Sprite{
 public:
-    
+    ~b2BodySprite();
     static b2BodySprite* create(const string& filename);
     static b2BodySprite* createWithTexture(Texture2D* texture);
     static b2BodySprite* createWithSpriteFrame(SpriteFrame* frame);
@@ -29,12 +29,16 @@ public:
     void setPTMRatio(float fPTMRatio);
     void setPosition(const cocos2d::Vec2 &pos);
     void setPositionWithBool(const cocos2d::Vec2 &pos, bool ignorgAnchorPoint);
+    void addMoveEventNotify();
+protected:
+    void onRecieveEvent(cocos2d::Ref *pRef);
+    void checkNeedRemove();
 protected:
     float   PTMRatio;
 private:
     
-    b2Body  *_pB2Body;
-    
+    b2Body  *_pB2Body = nullptr;
+    bool hadAddNotify = false;
 //    float   _PTMRatio;
 //    float   _PTMRatio;
 };

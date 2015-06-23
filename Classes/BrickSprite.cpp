@@ -31,7 +31,7 @@ BrickSprite* BrickSprite::createWithSpriteFrame(cocos2d::SpriteFrame *frame) {
 }
 
 bool BrickSprite::initWithFrame(cocos2d::SpriteFrame *frame) {
-    if (Box2dPhysicSprite::initWithSpriteFrame(frame)) {
+    if (Sprite::initWithSpriteFrame(frame)) {
         statue = kIdle;
         return true;
     }
@@ -40,7 +40,7 @@ bool BrickSprite::initWithFrame(cocos2d::SpriteFrame *frame) {
 
 
 bool BrickSprite::initWithFilename(const string &file) {
-    if (Box2dPhysicSprite::initWithFile(file)) {
+    if (Sprite::initWithFile(file)) {
         statue = kIdle;
         return true;
     }
