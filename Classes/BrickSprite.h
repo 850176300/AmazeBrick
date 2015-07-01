@@ -14,7 +14,7 @@
 #include "Box2dPhysicSprite.h"
 USING_NS_CC;
 using namespace std;
-class BrickSprite : public Sprite{
+class BrickSprite : public Box2dPhysicSprite{
 public:
     enum BrickStatues{
         kDie = 1,

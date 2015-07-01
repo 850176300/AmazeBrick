@@ -239,10 +239,10 @@ void Box2dLayer::addBrickBody(){
     _Brickbody->SetBullet(true);
     //    b2MassData* pData = nullptr;
     //    _Brickbody->GetMassData(pData);
-//    brickSprite->setB2Body(_Brickbody);
-//    brickSprite->setPTMRatio(PTM_RATIO);
+    brickSprite->setB2Body(_Brickbody);
+    brickSprite->setPTMRatio(PTM_RATIO);
     brickSprite->setColor(Color3B::BLACK);
-//    brickSprite->setIgnoreBodyRotation(true);
+    brickSprite->setIgnoreBodyRotation(true);
     _Brickbody->SetFixedRotation(false);
     brickSprite->addComponent(new BrickComponent());
     addChild(brickSprite);

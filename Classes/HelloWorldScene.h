@@ -30,6 +30,7 @@ public:
 protected:
     void onRecieveEvent(Ref* pRef);
     void checkNeedAddBodys();
+    void checkRect(float dt);
 private:
     void addlongBrick();
     BrickSprite* brickSprite = nullptr;

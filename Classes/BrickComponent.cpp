@@ -67,20 +67,11 @@ void BrickComponent::step(float t) {
     {
         float y = 0;
         if (changeSpeed == true) {
-            
-//            float frac = fmodf( t , 1.0f );
-//            y = _height * 4 *  frac * (1 - frac);
+      
             y += _delta.y * t;
             y += speedY * 0.2;
             speedY -= 20*0.2f;
-//            log("the 2 y speed is %.2f", y);
-            
-//            float frac = fmodf( t , 4.0f );
-//            y = _height * 4 *  frac * (4 - frac);
-//            y += _delta.y * t;
-//            _moveHeight += y;
-//            speedY = 1 * y / t;
-//            log("the 2 y speed is %.2f", y);
+
         }else {
             float frac = fmodf( t , 1.0f );
             y = _height * 4 *  frac * (1 - frac);
@@ -91,6 +82,7 @@ void BrickComponent::step(float t) {
         }
 
         float x = _delta.x * t;
+        
         Vec2 currentPos = parent->getPosition();
 
         Vec2 diff = currentPos - _previousPos;
@@ -98,6 +90,7 @@ void BrickComponent::step(float t) {
         _startPosition = diff + _startPosition;
 
         Vec2 newPos = _startPosition + Vec2(x,y);
+        
         if (changeSpeed == true) {
             newPos.y = currentPos.y + y;
         }
@@ -112,6 +105,7 @@ void BrickComponent::step(float t) {
         if (newPos.x >= Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width - parent->getContentSize().width / 2.0) {
             newPos.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width - parent->getContentSize().width / 2.0;
         }
+        
         parent->setPosition(newPos);
         
         _previousPos = newPos;
@@ -137,13 +131,13 @@ void BrickComponent::touchLAction(){
         _durantion = MoveDuration*(y / MoveY);
         x = x*(y / MoveY);
         dt = MoveDuration - _durantion;
-        if (_durantion < 0.5) {
-            _durantion = 0.5;
+        if (_durantion < SecondTime) {
+            _durantion = SecondTime;
             dt = _durantion;
             x = x*0.5f;
         }
-        if (fabs(x) < 50) {
-            x = -50;
+        if (fabs(x) < XChange) {
+            x = -XChange;
         }
         int tempT = (int)(dt*10);
         __String* data = __String::createWithFormat("%.2f", tempT*1000+movedis);
@@ -160,11 +154,7 @@ void BrickComponent::touchLAction(){
     _elapsed = 0;
     _previousPos = _startPosition = startPos;
     changeSpeed = false;
-    log("move x Position is %.2f", x);
-//    JumpByDrop* move1 = JumpByDrop::create(MoveDuration, Vec2(x, 0), y, 1);
-////    EaseSineIn* move2 = EaseSineIn::create(MoveBy::create(DropDuration, Vec2(0, -1*STVisibleRect::getGlvisibleSize().height*0.75)));
-////    curAction = Sequence::create(move1, move2, NULL);
-//    parent->runAction(move1);
+//    log("move x Position is %.2f", x);
     
 }
 
@@ -183,13 +173,13 @@ void BrickComponent::touchRAction(){
         _durantion = MoveDuration*(y / MoveY);
         dt = MoveDuration - _durantion;
          x = x*(y / MoveY);
-        if (_durantion < 0.5) {
-            _durantion = 0.5;
+        if (_durantion < SecondTime) {
+            _durantion = SecondTime;
             dt = _durantion;
             x=x*0.5f;
         }
-        if (fabs(x) < 50) {
-            x = 50;
+        if (fabs(x) < XChange) {
+            x = XChange;
         }
         int tempT = (int)(dt*10);
         __String* data = __String::createWithFormat("%.2f", tempT*1000+movedis);
@@ -206,11 +196,8 @@ void BrickComponent::touchRAction(){
     _elapsed = 0;
     _previousPos = _startPosition = startPos;
     changeSpeed = false;
-    log("move x Position is %.2f", x);
-//    JumpByDrop* move1 = JumpByDrop::create(MoveDuration, Vec2(x, 0), y, 1);
-////    EaseSineIn* move2 = EaseSineIn::create(MoveBy::create(DropDuration, Vec2(0, -1*STVisibleRect::getGlvisibleSize().height*0.75)));
-////    curAction = Sequence::create(move1, move2, NULL);
-//    parent->runAction(move1);
+//    log("move x Position is %.2f", x);
+
 }
 
 void BrickComponent::stopAction(){

@@ -74,9 +74,14 @@ bool HelloWorld::init()
     addChild(brickSprite, 1);
     
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(HelloWorld::onRecieveEvent), kMoveNotifyEvent, nullptr);
-    
+    this->schedule(schedule_selector(HelloWorld::checkRect));
     return true;
 }
+
+void HelloWorld::checkRect(float dt) {
+    
+}
+
 
 void HelloWorld::onRecieveEvent(cocos2d::Ref *pRef){
     __String* data = dynamic_cast<__String*>(pRef);
