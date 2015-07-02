@@ -3,8 +3,8 @@
 //
 #ifdef __cplusplus__
     #include <cocos2d.h>
-    #include <cocos-ext.h>
 #endif
+
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>

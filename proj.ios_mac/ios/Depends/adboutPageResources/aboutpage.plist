@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bgcolor</key>
+	<string>240,248,255</string>
+	<key>close_offset</key>
+	<string>{0,0}#{0,0}</string>
+	<key>opacity</key>
+	<false/>
+</dict>
+</plist>

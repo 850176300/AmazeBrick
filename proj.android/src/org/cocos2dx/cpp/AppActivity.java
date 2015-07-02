@@ -28,5 +28,56 @@ package org.cocos2dx.cpp;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import com.common.android.PlatformCode;
+import com.common.android.jni.MoreGamesActivityForJNI;
+import com.common.android.jni.STMopubAds;
+import com.common.android.jni.STMopubAds.STAmazonAdSize;
+import com.common.android.utils.Utils;
+
+import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.FrameLayout.LayoutParams;
+
 public class AppActivity extends Cocos2dxActivity {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		//very important!!!!!!
+		setPublicKey("");
+		
+		// 初始化JNI广告模块
+		STMopubAds.setup(this, true);
+		// 如果有Amazon广告，设置Amazon广告大小
+		STMopubAds.getInstance().setAmazonSizeType(STAmazonAdSize.SIZE_728x90, STAmazonAdSize.SIZE_320x50);
+		// 设置广告Banner大小和位置
+		if (Utils.isTablet(this)) {
+			STMopubAds.getInstance().setBannnerAdViewLayoutParams(
+					LayoutParams.MATCH_PARENT, 90,
+					Gravity.CENTER | Gravity.BOTTOM);
+		} else {
+			STMopubAds.getInstance().setBannnerAdViewLayoutParams(
+					LayoutParams.MATCH_PARENT, 50,
+					Gravity.CENTER | Gravity.BOTTOM);
+		}
+		
+		//more game 
+		MoreGamesActivityForJNI.ACTIVITY_LAYOUT_ID = R.layout.activity_more_games;
+		MoreGamesActivityForJNI.WEBVIEW_ID = 0;
+		MoreGamesActivityForJNI.TITLE_PROGRESS_ID = 0;
+	}
+	@Override
+	public int getPlatformCode() {
+		return PlatformCode.GOOGLEPLAY;
+	}
+
+	@Override
+	public boolean getDebugMode() {
+		return true;
+	}
+
+	@Override
+	public boolean enableEvent() {
+		return !getDebugMode();
+	}
 }

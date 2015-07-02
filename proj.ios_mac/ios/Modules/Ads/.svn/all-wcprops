@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/proj.ios_mac/Modules/Ads
+END
+DeviceHelper.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/proj.ios_mac/Modules/Ads/DeviceHelper.h
+END
+STAds.mm
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/proj.ios_mac/Modules/Ads/STAds.mm
+END
+AdsIOSWrapper.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/proj.ios_mac/Modules/Ads/AdsIOSWrapper.h
+END
+DeviceHelper.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/proj.ios_mac/Modules/Ads/DeviceHelper.m
+END
+AdsIOSWrapper.mm
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/proj.ios_mac/Modules/Ads/AdsIOSWrapper.mm
+END

@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
-#include "Box2dLayer.h"
-#include "GB2ShapeCache-x.h"
+
 USING_NS_CC;
 
 AppDelegate::AppDelegate() {
@@ -27,10 +26,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
-    GB2ShapeCache::sharedGB2ShapeCache()->addShapesWithFile("BrickShape.plist");
-    
     // create a scene. it's an autorelease object
-    auto scene = Box2dLayer::scene();
+    auto scene = HelloWorld::createScene();
 
     // run
     director->runWithScene(scene);

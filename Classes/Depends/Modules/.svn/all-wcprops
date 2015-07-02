@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules
+END
+AdsImpl.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/AdsImpl.h
+END
+STAdsDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/STAdsDelegate.h
+END
+AnalyticX.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/AnalyticX.h
+END
+AlumnAdapter.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/AlumnAdapter.h
+END
+STIABDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/STIABDelegate.h
+END
+STAds.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/STAds.h
+END
+STInAppBilling.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/STInAppBilling.h
+END
+STFacebook.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/STFacebook.h
+END
+STSystemFunction.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/STSystemFunction.h
+END
+AdsImpl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/make/!svn/ver/34310/trunk/BNM1002_Pony_Outdoor_Adventure/Classes/Depends/Modules/AdsImpl.cpp
+END

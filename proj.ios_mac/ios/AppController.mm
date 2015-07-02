@@ -29,12 +29,17 @@
 #import "RootViewController.h"
 
 @implementation AppController
-
+@synthesize viewController = _viewController;
+@synthesize window = window;
 #pragma mark -
 #pragma mark Application lifecycle
 
 // cocos2d application instance
 static AppDelegate s_sharedApplication;
+
++(AppController*)sharedAppController{
+    return (AppController*)[UIApplication sharedApplication].delegate;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
 
